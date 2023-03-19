@@ -1,0 +1,11 @@
+{
+    "name": "text-2-video",
+    "category": "Multimodal",
+    "example_input": {
+        "prompt":"prompt"
+    },
+    "example_output": {
+        "video_url": "url_to_video_on_s3"
+    },
+    "version": "1"
+  }
