@@ -8,9 +8,9 @@ s3 = boto3.resource("s3")
 BUCKET_NAME = os.getenv("BUCKET_NAME")
 
 def upload_to_s3(path):
-    s = s3.upload_file(Bucket=BUCKET_NAME,Filename=path,Key=path)
-    print(s)
-    return s
+    s3.meta.client.upload_file(Bucket=BUCKET_NAME,Filename=path,Key=path.split("/")[-1])
+    s3_url = f's3://{BUCKET_NAME}/{path.split("/")[-1]}'
+    return s3_url
 
 def init():
     global model
@@ -33,6 +33,6 @@ def inference(model_inputs:dict) -> dict:
     video_path = model(input_prompt,)[OutputKeys.OUTPUT_VIDEO]
     
     s3_path = upload_to_s3(video_path)
-    os.remove(video_path)
+
     # Return the results as a dictionary
     return {'video_url': s3_path}
